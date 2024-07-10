@@ -6,6 +6,7 @@ from matplotlib import pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.svm import SVR
 
 def add_month_year(df: pd.DataFrame) -> pd.DataFrame:
     df["date"] = pd.to_datetime(df["date"])
@@ -152,7 +153,33 @@ def lr_predictor_default_split(df: pd.DataFrame):
 def svr_predictor_default_split(df: pd.DataFrame):
     """ TODO:
     """
+    df = add_month_year(df)
+    x = df[["precipitation", "temp_min", "wind", "month", "year", "date"]]
+    y = df["temp_max"]
 
+    (x_train, x_test,
+     y_train, y_test) = train_test_split(x, y,
+                                         test_size=.11,
+                                         shuffle=False)
+
+    svr = SVR(kernel='linear')
+    svr.fit(x_train.drop('date', axis=1), y_train)
+    prediction = svr.predict(x_test.drop('date', axis=1))
+
+    x_plot = np.array(x_test["date"])
+    y_plot = np.array(y_test)
+    prediction_plot = np.array(prediction)
+
+    plt.plot(x_plot, y_plot, color='blue')
+    plt.scatter(x_plot, y_plot, color='blue')
+
+    plt.plot(x_plot, prediction_plot, color='red')
+    plt.scatter(x_plot, prediction_plot, color='red')
+
+    plt.show()
+
+    print(f"MSE: {mean_squared_error(y_test, prediction)}")
+    print(f"r2: {r2_score(y_test, prediction)}")
 
 def main():
     df = pd.read_csv('seattle-weather.csv')
@@ -162,8 +189,9 @@ def main():
     # precipitation_facegrid_scatterplot(df)
     # weather_countplot(df)
     # weather_piechart(df)
-    lr_predictor_random_split(df)
+    # lr_predictor_random_split(df)
     # lr_predictor_default_split(df)
+    svr_predictor_default_split(df)
 
 
 if __name__ == '__main__':

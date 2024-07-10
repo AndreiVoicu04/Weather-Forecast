@@ -58,3 +58,9 @@
     - observation: the lower the train percentage is, the worse the scores are. However, if the test percentage is too big,
     the model might tend to overfit.
 ![img_6.png](img_6.png)
+## SVR default split
+    - the same parameters as in the linear regression
+    - MSE: 11.77
+    - R2 score: 0.79
+    - observation: in this case the linear regression got better results compared to SVR.
+![img_7.png](img_7.png)
