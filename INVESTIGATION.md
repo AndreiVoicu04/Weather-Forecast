@@ -37,3 +37,24 @@
 ![img_3.png](img_3.png)
 ## plt.pie - weather piechart
 ![img_4.png](img_4.png)
+## linear regression with default split
+    - the columns have been split into labels(temp_max) and features(precipitation, temp_min, wind, month and year)
+    - the split is .89 train, .11 test
+    - shuffle is set to false so that the samples are in cronological order
+    - MSE: 9.57
+    - R2 score: 0.83
+    
+![img_5.png](img_5.png)
+## linear regression with random split
+    - example with train percentage 0.16 and test percentage 0.84:
+        - MSE: 39.8
+        - R2 score: 0.26
+    - example with train percentage 0.91 and test percentage 0.09:
+        - MSE: 9.7
+        - R2 score: 0.71
+    - example with train percentage 0.38 and test percentage 0.62:
+        - MSE: 11.4
+        - R2 score: 0.79
+    - observation: the lower the train percentage is, the worse the scores are. However, if the test percentage is too big,
+    the model might tend to overfit.
+![img_6.png](img_6.png)
